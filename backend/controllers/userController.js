@@ -56,7 +56,6 @@ export const registerUser = async (req, res) => {
     };
 };
 
-
 export const verification = async (req, res) => {
     try {
         const authHeader = req.headers.authorization;
@@ -110,7 +109,6 @@ export const verification = async (req, res) => {
         })
     }
 }
-
 
 export const loginUser = async (req, res) => {
     try {
@@ -175,7 +173,6 @@ export const loginUser = async (req, res) => {
     }
 };
 
-
 export const logoutUser = async (req, res) => {
     try {
         const userID = req.userId;
@@ -193,7 +190,6 @@ export const logoutUser = async (req, res) => {
         })
     }
 }
-
 
 export const forgotPassword = async (req, res) => {
     try { }

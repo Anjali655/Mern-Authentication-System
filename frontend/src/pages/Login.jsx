@@ -15,14 +15,15 @@ import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { getData } from "@/context/userContext";
 
 
 const Login = () => {
+    const { setUser } = getData();
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
-
         email: "",
         password: "",
     });
@@ -49,6 +50,8 @@ const Login = () => {
             if (res.data.success) {
                 toast.success(res.data.message || " logged in successfully!");
                 navigate('/');
+                setUser(res.data.user);
+                localStorage.setItem("accessToken", res.data.accessToken);
             }
         }
         catch (err) {

@@ -10,9 +10,34 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { getData } from '@/context/userContext';
+import axios from 'axios';
+import { toast } from 'sonner';
 
 const Navbar = () => {
-    const user = true;
+    const { user, setUser } = getData();
+    console.log(user);
+    const accessToken = localStorage.getItem("accessToken")
+
+
+    const logoutHandler = async () => {
+        try {
+            const res = await axios.post("http://localhost:8000/user/logout", {}, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+            if (res.data.success) {
+                setUser(null);
+                toast.success(res.data.message || "Logged out successfully!");
+                localStorage.clear();
+            }
+        }
+        catch (err) {
+            console.log(err.response?.data?.message);
+            toast.error(err.response?.data?.message);
+        }
+    }
 
     return (
         <nav className='p-2 border border-gray-200 bg-transparent'>

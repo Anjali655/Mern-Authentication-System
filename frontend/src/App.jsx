@@ -5,11 +5,18 @@ import Login from "./pages/Login.jsx";
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import VerifyEmail from './pages/VerifyEmail.jsx';
 import Verify from './pages/Verify.jsx';
+import Navbar from './components/Navbar.jsx';
+import ProtectedRoutes from './components/ProtectedRoutes.jsx';
+import ForgotPassword from './pages/ForgotPassword.jsx';
+import VerifyOTP from './pages/VerifyOTP.jsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />
+    element: <ProtectedRoutes>
+      <Navbar />
+      <Home />
+    </ProtectedRoutes>
   },
   {
     path: "/signup",
@@ -26,6 +33,14 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgotPassword />
+  },
+  {
+    path: "/verify-otp/:email",
+    element: <VerifyOTP />
   }
 ])
 

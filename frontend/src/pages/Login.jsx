@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
     Card,
@@ -16,7 +16,9 @@ import { toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { getData } from "@/context/userContext";
-
+import GoogleIcon from "../assets/google.svg";
+import MicrosoftIcon from "../assets/microsoft.svg";
+import GithubIcon from "../assets/github.svg";
 
 const Login = () => {
     const { setUser } = getData();
@@ -42,21 +44,26 @@ const Login = () => {
         console.log(formData);
         try {
             setIsLoading(true);
-            const res = await axios.post('http://localhost:8000/user/login', formData, {
-                headers: {
-                    "Content-Type": 'application/json'
+            const res = await axios.post(
+                "http://localhost:8000/user/login",
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
                 }
-            });
+            );
             if (res.data.success) {
                 toast.success(res.data.message || " logged in successfully!");
-                navigate('/');
+                navigate("/");
                 setUser(res.data.user);
                 localStorage.setItem("accessToken", res.data.accessToken);
             }
-        }
-        catch (err) {
+        } catch (err) {
             console.log(err);
-            toast.error(err.response?.data?.message || "Something went wrong. Please try again.");
+            toast.error(
+                err.response?.data?.message || "Something went wrong. Please try again."
+            );
         } finally {
             setIsLoading(false);
         }
@@ -156,9 +163,22 @@ const Login = () => {
                                         "Login"
                                     )}
                                 </Button>
-                                {/* <Button variant="outline" className="w-full">
-                                    Login with Google
-                                </Button> */}
+
+
+                                <Button variant="outline" className="w-full cursor-pointer">
+                                    <img src={GithubIcon} className="w-4 h-4" />{" "}
+                                    <span>Login with Github</span>
+                                </Button>
+                                <Button variant="outline" className="w-full cursor-pointer">
+                                    <img src={MicrosoftIcon} className="w-4 h-4" />
+                                    <span>Login with Microsoft</span>
+                                </Button>
+                                <CardDescription className="">
+                                    Not having any Account?{" "}
+                                    <span className="text-sm text-green-600 hover:underline">
+                                        <Link to={"/signup"}>Signup</Link>
+                                    </span>
+                                </CardDescription>
                             </CardFooter>
                         </Card>
                     </div>

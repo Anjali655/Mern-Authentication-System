@@ -41,6 +41,10 @@ const router = createBrowserRouter([
   {
     path: "/verify-otp/:email",
     element: <VerifyOTP />
+  },
+  {
+    path: "/verify-otp/:email",
+    element: <VerifyOTP />
   }
 ])
 

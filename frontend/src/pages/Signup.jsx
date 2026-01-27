@@ -11,9 +11,9 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { Chrome, Eye, EyeOff, Github, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 
@@ -158,9 +158,14 @@ const Signup = () => {
                                         "Signup"
                                     )}
                                 </Button>
-                                {/* <Button variant="outline" className="w-full">
-                                    Login with Google
-                                </Button> */}
+
+
+                                <CardDescription className="">
+                                    Already have an Account?{" "}
+                                    <span className="text-sm text-green-600 hover:underline">
+                                        <Link to={"/login"}>Login</Link>
+                                    </span>
+                                </CardDescription>
                             </CardFooter>
                         </Card>
                     </div>

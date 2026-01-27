@@ -4,14 +4,15 @@ import {
     Card,
     CardContent,
     CardDescription,
+    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import axios from "axios";
-import { CheckCircle, Loader2 } from "lucide-react";
-import React, { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { CheckCircle, Loader2, RotateCcw } from "lucide-react";
+import React, { useRef, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const VerifyOTP = () => {
     const [isVerified, setIsVerified] = useState(false);
@@ -19,7 +20,7 @@ const VerifyOTP = () => {
     const [successMessage, setSuccessMessage] = useState("");
     const [otp, setOtp] = useState(["", "", "", "", "", ""]);
     const [isLoading, setIsLoading] = useState(false);
-    const inputRefs = useRef();
+    const inputRefs = useRef([]);
     const { email } = useParams();
     const navigate = useNavigate();
 
@@ -41,10 +42,13 @@ const VerifyOTP = () => {
         }
         try {
             setIsLoading(true);
-            const res =
-                await axios.post(`http://localhost:8000/user/verify-otp/${email},{
-                otp: finalOtp;
-                }`);
+            const res = await axios.post(
+                `http://localhost:8000/user/verify-otp/${email}`,
+                {
+                    otp: finalOtp,
+                }
+            );
+
             setSuccessMessage(res.data.message);
             setTimeout(() => {
                 navigate("/change-password/${email}");
@@ -150,11 +154,33 @@ const VerifyOTP = () => {
                                                 "Verify code"
                                             )}
                                         </Button>
+                                        <Button
+                                            variant='outline'
+                                            onClick={clearOtp}
+                                            className='w-full bg-transparent'
+                                            disabled={isLoading || isVerified}
+                                        >
+                                            <RotateCcw className="mr-2 h-4 w-4" />
+                                            Clear
+                                        </Button>
                                     </div>
                                 </>
                             )}
                         </CardContent>
+                        <CardFooter className='flex justify-center'>
+                            <p className="text-sm text-muted-foreground">
+                                Wrong email?{" "}
+                                <Link
+                                    to={'/forgot-password'}
+                                    className="text-green-600 hover:underline font-medium" >Go back</Link>
+                            </p>
+                        </CardFooter>
                     </Card>
+                    <div className="text-center text-xs text-muted-foreground">
+                        <p>
+                            For testing purposes, use code: <span className="font-mono font-medium">123456</span>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

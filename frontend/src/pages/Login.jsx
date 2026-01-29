@@ -165,14 +165,23 @@ const Login = () => {
                                 </Button>
 
 
+                                <Button
+                                    onClick={() => window.open("http://localhost:8000/auth/google", "_self")}
+                                    variant="outline" className="w-full cursor-pointer">
+                                    <img src={GoogleIcon} className="w-4 h-4" />{" "}
+                                    <span>Login with Google</span>
+                                </Button>
+
                                 <Button variant="outline" className="w-full cursor-pointer">
                                     <img src={GithubIcon} className="w-4 h-4" />{" "}
                                     <span>Login with Github</span>
                                 </Button>
+
                                 <Button variant="outline" className="w-full cursor-pointer">
                                     <img src={MicrosoftIcon} className="w-4 h-4" />
                                     <span>Login with Microsoft</span>
                                 </Button>
+
                                 <CardDescription className="">
                                     Not having any Account?{" "}
                                     <span className="text-sm text-green-600 hover:underline">

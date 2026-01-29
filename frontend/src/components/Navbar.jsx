@@ -54,24 +54,49 @@ const Navbar = () => {
                         <li>About</li>
                         {
                             user ?
-                                <DropdownMenu>
-                                    <DropdownMenuTrigger>
-                                        <Avatar>
-                                            <AvatarImage src="https://github.com/shadcn.png" />
-                                            <AvatarFallback>CN</AvatarFallback>
+                                (<DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Avatar className="cursor-pointer">
+                                            <AvatarImage
+                                                src={user?.avatar}
+                                                alt={user?.username || "User avatar"}
+                                            />
+                                            <AvatarFallback>
+                                                {user?.username?.charAt(0)?.toUpperCase() || "U"}
+                                            </AvatarFallback>
                                         </Avatar>
                                     </DropdownMenuTrigger>
-                                    <DropdownMenuContent>
+                                    <DropdownMenuContent align="end">
                                         <DropdownMenuLabel>My Account</DropdownMenuLabel>
                                         <DropdownMenuSeparator />
-                                        <DropdownMenuItem><User />Profile</DropdownMenuItem>
-                                        <DropdownMenuItem><BookA />Notes</DropdownMenuItem>
+
+                                        <DropdownMenuItem>
+                                            <User className="mr-2 h-4 w-4" />
+                                            Profile
+                                        </DropdownMenuItem>
+
+                                        <DropdownMenuItem>
+                                            <BookA className="mr-2 h-4 w-4" />
+                                            Notes
+                                        </DropdownMenuItem>
+
                                         <DropdownMenuSeparator />
-                                        <DropdownMenuItem onClick={logoutHandler}><LogOut />Logout</DropdownMenuItem>
+
+                                        <DropdownMenuItem
+                                            onClick={logoutHandler}
+                                            className="text-red-600 focus:text-red-600"
+                                        >
+                                            <LogOut className="mr-2 h-4 w-4" />
+                                            Logout
+                                        </DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
-                                : <Link to={"/login"}><li>Sign in</li></Link>
-                        }
+                                ) : (
+                                    <Link to="/login">
+                                        <li>Sign in</li>
+                                    </Link>
+                                )}
+
                     </ul>
                 </div>
             </div>

@@ -9,14 +9,15 @@ import Navbar from './components/Navbar.jsx';
 import ProtectedRoutes from './components/ProtectedRoutes.jsx';
 import ForgotPassword from './pages/ForgotPassword.jsx';
 import VerifyOTP from './pages/VerifyOTP.jsx';
+import AuthSuccess from './pages/AuthSuccess.jsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <ProtectedRoutes>
+    element: <>
       <Navbar />
       <Home />
-    </ProtectedRoutes>
+    </>
   },
   {
     path: "/signup",
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />
+  },
+  {
+    path: "/auth-success",
+    element: <AuthSuccess />
   },
   {
     path: "/forgot-password",

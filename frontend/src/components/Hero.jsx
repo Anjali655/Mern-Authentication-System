@@ -1,8 +1,8 @@
 import { ArrowRight, Zap } from 'lucide-react'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Badge } from './badge'
-import { Button } from './button'
+import { Badge } from './ui/badge'
+import { Button } from './ui/button'
 import { getData } from '@/context/userContext'
 
 const Hero = () => {
@@ -13,7 +13,9 @@ const Hero = () => {
             <section className=" w-full py-12 md:py-24 lg:py-32 xl:py-48">
                 <div className="max-w-7xl mx-auto px-4 md:px-6">
                     <div className="flex flex-col items-center space-y-4 text-center">
-                        <h1 className='font-bold text-2xl'>Welcome {user.username}</h1>
+                        {
+                            user && <h1 className='font-bold text-2xl'>Welcome {user.username}</h1>
+                        }
 
                         <div className="space-y-2">
                             <Badge variant="secondary" className="mb-4 text-green-800 border border-green-200">

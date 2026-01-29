@@ -5,24 +5,46 @@ import User from '../models/userModel.js';
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://www.example.com/auth/google/callback"
+    callbackURL: "/auth/google/callback"
 },
-    async (accessToken, refreshToken, profile, cb) => {
+    async (accessToken, refreshToken, profile, done) => {
         try {
-            let user = User.findOneAndUpdate({ googleId: profile.id }, { isLoggedIn: true });
-            if (!user) {
-                await user.create({
-                    googleId: profile.id,
-                    username: profile.displayName,
-                    email: profile.email[0].value,
-                    avatar: profile.photos[0].value
-                })
-            }
-            return document(null, user);
-        }
-        catch (error) {
-            return document(error, null);
-        };
+            const email = profile.emails[0].value;
 
+            let user = await User.findOne({
+                $or: [
+                    { googleId: profile.id },
+                    { email }
+                ]
+            });
+
+            if (!user) {
+                // 🔹 New user
+                user = await User.create({
+                    googleId: profile.id,
+                    email,
+                    username: profile.displayName,
+                    avatar: profile.photos[0].value,
+                    isLoggedIn: true,
+                    isVerified: true,
+                });
+            } else {
+                // 🔹 Existing user → link Google account
+                if (!user.googleId) {
+                    user.googleId = profile.id;
+                }
+                user.isLoggedIn = true;
+                user.isVerified = true;
+                await user.save();
+            }
+
+            return done(null, user);
+        } catch (error) {
+            return done(error, null);
+        }
     }
+
+
 ));
+
+export default passport;
